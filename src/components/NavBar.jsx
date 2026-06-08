@@ -19,17 +19,21 @@ export default function Navbar({ currentPage, onNavigate }) {
             <button
               key={id}
               onClick={() => onNavigate(id)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs transition-all cursor-pointer ${
-                currentPage === id
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs transition-all cursor-pointer ${currentPage === id
                   ? 'bg-[#1a1a2e] text-[##C2F8CB] border border-[#C2F8CB]/30'
                   : 'text-[#6b6b8a] hover:text-[#e8e8f0]'
-              }`}
+                }`}
             >
               <Icon size={13} />
               <span className="hidden sm:inline">{label}</span>
             </button>
           ))}
         </div>
+      </div>
+      <div className="border-t border-[#1e1e32] px-4 py-1 flex justify-end">
+        <span className="text-[#858587] text-[10px] font-mono">
+          {new Date().toISOString().split('T')[0]}
+        </span>
       </div>
     </nav>
   )

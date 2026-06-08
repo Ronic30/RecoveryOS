@@ -8,14 +8,14 @@ export default function DashboardPage() {
   const todayLog = getTodayLog()
   const streak = getStreak()
 
-  if (!todayLog) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
-        <p className="text-[#6b6b8a] font-mono text-sm">No log for today yet.</p>
-        <p className="text-[#1e1e32] font-mono text-xs">Go to Log Today to get your Recovery Score.</p>
-      </div>
-    )
-  }
+if (!todayLog) {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
+      <p className="text-[#6b6b8a] font-mono text-sm">No log for today yet.</p>
+      <p className="text-[#e8e8f0]/30 font-mono text-xs">Go to Log Today to get your Recovery Score.</p>
+    </div>
+  )
+}
 
   return (
     <div className="space-y-6">

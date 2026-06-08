@@ -12,14 +12,14 @@ export default function App(){
     dashboard: <DashboardPage />,
     log: <LogPage />,
     charts: <ChartsPage />,
-    history: <History />
+    history: <HistoryPage />
   }
 
   return(
     <div className="min-h-screen bg-[#0a0a0f]">
       <Navbar currentPage={page} onNavigate={setPage} />
       <main className="max-w-5xl mx-auto px-4 py-8">
-        {page[page]}
+        {pages[page]}
       </main>
     </div>
   )

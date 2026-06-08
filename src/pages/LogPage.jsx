@@ -1,3 +1,15 @@
-export default function LogPage() {   // change name for each file
-  return <div className="p-8 text-center text-[#6b6b8a]">DashboardPage — coming soon</div>
+import DailyLogForm from '../components/DailyLogForm'
+import { useRecoveryLogs } from '../hooks/useRecoveryLogs'
+
+export default function LogPage() {
+  const { addLog, getTodayLog } = useRecoveryLogs()
+
+  return (
+    <div className="max-w-lg mx-auto">
+      <DailyLogForm
+        onSubmit={addLog}
+        alreadyLogged={!!getTodayLog()}
+      />
+    </div>
+  )
 }

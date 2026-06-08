@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Navbar from './components/Navbar'
+import NavBar from './components/NavBar'
 import DashboardPage from './pages/DashboardPage'
 import LogPage from './pages/LogPage'
 import ChartsPage from './pages/ChartsPage'
@@ -17,7 +17,7 @@ export default function App(){
 
   return(
     <div className="min-h-screen bg-[#0a0a0f]">
-      <Navbar currentPage={page} onNavigate={setPage} />
+      <NavBar currentPage={page} onNavigate={setPage} />
       <main className="max-w-5xl mx-auto px-4 py-8">
         {pages[page]}
       </main>

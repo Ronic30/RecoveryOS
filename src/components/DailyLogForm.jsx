@@ -13,28 +13,28 @@ const sliders = [
     label: 'Yesterday\'s Workout Intensity',
     min: 1, max: 10,
     description: (v) => ['', 'Rest day', 'Very light', 'Light', 'Easy', 'Moderate', 'Challenging', 'Hard', 'Very hard', 'Intense', 'Max effort'][v],
-    color: '#ff6b35',
+    color: '#7eb8c9',
   },
   {
     key: 'sleepHours',
     label: 'Sleep Hours',
     min: 1, max: 12,
     description: (v) => `${v} hour${v !== 1 ? 's' : ''}`,
-    color: '#00f5ff',
+    color: '#7eb8c9',
   },
   {
     key: 'sleepQuality',
     label: 'Sleep Quality',
     min: 1, max: 5,
     description: (v) => ['', 'Terrible', 'Poor', 'Okay', 'Good', 'Perfect'][v],
-    color: '#00f5ff',
+    color: '#7eb8c9',
   },
   {
     key: 'sorenessLevel',
     label: 'Muscle Soreness',
     min: 1, max: 5,
     description: (v) => ['', 'None', 'Mild', 'Moderate', 'Significant', 'Severe'][v],
-    color: '#ff2d55',
+    color: '#7eb8c9',
   },
 ]
 

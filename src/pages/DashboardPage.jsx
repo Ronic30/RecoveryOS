@@ -29,7 +29,7 @@ export default function DashboardPage() {
         </div>
         {streak > 0 && (
           <div className="bg-[#13131f] border border-[#1e1e32] rounded-xl px-4 py-2 text-center">
-            <p className="text-[#ffd60a] font-mono font-bold text-lg">{streak}</p>
+            <p className="text-[#ef233c] font-mono font-bold text-lg">{streak}</p>
             <p className="text-[#6b6b8a] text-[10px] font-mono uppercase tracking-widest">day streak</p>
           </div>
         )}

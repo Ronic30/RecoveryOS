@@ -34,7 +34,10 @@ export function useRecoveryLogs() {
     saveLogs(updated)
   }
 
-  const getTodayLog = () => logs.find(l => l.date === getToday()) || null
+  const getTodayLog = () => {
+  const allLogs = getLogs()
+  return allLogs.find(l => l.date === getToday()) || null
+}
 
   const getStreak = () => {
     if (logs.length === 0) return 0

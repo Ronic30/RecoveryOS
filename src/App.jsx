@@ -4,9 +4,15 @@ import DashboardPage from './pages/DashboardPage'
 import LogPage from './pages/LogPage'
 import ChartsPage from './pages/ChartsPage'
 import HistoryPage from './pages/HistoryPage'
+import { useRecoveryLogs } from './hooks/useRecoveryLogs'
 
 export default function App(){
-  const [page, setPage] = useState('dashboard')
+  const{getTodayLog} = useRecoveryLogs()
+  const todayLoggedIn = getTodayLog()
+
+  const [page, setPage] = useState(
+    !todayLoggedIn ? 'log' : 'dashboard'
+  )
 
   const pages = {
     dashboard: <DashboardPage />,

@@ -31,7 +31,7 @@ export default function Navbar({ currentPage, onNavigate }) {
         </div>
       </div>
       <div className="border-t border-[#1e1e32] px-4 py-1 flex justify-end">
-        <span className="text-[#858587] text-[10px] font-mono">
+        <span className="text-[#ef233c] text-[10px] font-mono">
           {new Date().toISOString().split('T')[0]}
         </span>
       </div>

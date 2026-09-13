@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { getToday } from '../utils/storage'
 import { calculateRecoveryScore } from '../utils/recoveryScore'
+import { safeFetchJson } from '../utils/api'
 
 export function useRecoveryLogs() {
   const [logs, setLogs] = useState([])
@@ -25,11 +26,11 @@ export function useRecoveryLogs() {
       })
 
       if (res.ok) {
-        const data = await res.json()
+        const data = await safeFetchJson(res)
         setLogs(data)
         setError(null)
       } else {
-        const errData = await res.json()
+        const errData = await safeFetchJson(res).catch(() => ({}))
         setError(errData.error || 'Failed to fetch logs')
       }
     } catch (err) {
@@ -104,14 +105,14 @@ export function useRecoveryLogs() {
       })
 
       if (res.ok) {
-        const savedEntry = await res.json()
+        const savedEntry = await safeFetchJson(res)
         setLogs(prev => {
           const filtered = prev.filter(l => l.date !== today)
           return [savedEntry, ...filtered].sort((a, b) => b.date.localeCompare(a.date))
         })
         return savedEntry
       } else {
-        const errData = await res.json().catch(() => ({}))
+        const errData = await safeFetchJson(res).catch(() => ({}))
         throw new Error(errData.error || 'Failed to save log entry')
       }
     } catch (err) {

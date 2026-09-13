@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
+import { safeFetchJson } from '../utils/api'
 
 const AuthContext = createContext()
 
@@ -25,7 +26,7 @@ export function AuthProvider({ children }) {
         })
 
         if (res.ok) {
-          const data = await res.json()
+          const data = await safeFetchJson(res)
           setUser(data.user)
         } else {
           // Token expired or invalid
@@ -51,7 +52,8 @@ export function AuthProvider({ children }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       })
-      const data = await res.json()
+
+      const data = await safeFetchJson(res)
 
       if (!res.ok) {
         throw new Error(data.error || 'Login failed')
@@ -75,7 +77,8 @@ export function AuthProvider({ children }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })
       })
-      const data = await res.json()
+
+      const data = await safeFetchJson(res)
 
       if (!res.ok) {
         throw new Error(data.error || 'Registration failed')

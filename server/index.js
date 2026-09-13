@@ -14,8 +14,16 @@ const PORT = process.env.PORT || 5000
 app.use(cors())
 app.use(express.json())
 
-// Connect to MongoDB
-connectDB()
+// Ensure MongoDB is connected before each request (required for Vercel serverless)
+app.use(async (req, res, next) => {
+  try {
+    await connectDB()
+    next()
+  } catch (err) {
+    console.error('DB connection error:', err.message)
+    res.status(500).json({ error: 'Database connection failed. Please check server configuration.' })
+  }
+})
 
 // --- AUTH ROUTES ---
 

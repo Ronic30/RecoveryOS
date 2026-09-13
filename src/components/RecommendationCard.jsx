@@ -1,26 +1,26 @@
 const config = {
   TRAIN_HARD: {
     label: 'Train Hard',
-    color: '#00ff88',
-    border: '#00ff88',
+    color: '#10b981',
+    border: '#10b981',
     icon: '⚡',
   },
   MODERATE: {
     label: 'Moderate Training',
-    color: '#00f5ff',
-    border: '#00f5ff',
+    color: '#3b82f6',
+    border: '#3b82f6',
     icon: '🎯',
   },
   LIGHT: {
     label: 'Go Light',
-    color: '#ffd60a',
-    border: '#ffd60a',
+    color: '#eab308',
+    border: '#eab308',
     icon: '🌤',
   },
   REST: {
     label: 'Rest Today',
-    color: '#ff2d55',
-    border: '#ff2d55',
+    color: '#ef233c',
+    border: '#ef233c',
     icon: '🛌',
   },
 }
@@ -30,16 +30,16 @@ export default function RecommendationCard({ recommendation, reason }) {
 
   return (
     <div
-      className="rounded-xl p-5 border bg-[#13131f]"
-      style={{ borderColor: `${c.border}30` }}
+      className="rounded-2xl p-5 border bg-theme-card transition-all shadow-sm"
+      style={{ borderColor: `${c.border}40` }}
     >
       <div className="flex items-center gap-3 mb-2">
         <span className="text-2xl">{c.icon}</span>
-        <span className="font-mono font-bold text-sm" style={{ color: c.color }}>
+        <span className="font-mono font-bold text-sm tracking-wide" style={{ color: c.color }}>
           {c.label.toUpperCase()}
         </span>
       </div>
-      <p className="text-[#6b6b8a] text-xs font-mono leading-relaxed">{reason}</p>
+      <p className="text-theme-secondary text-xs font-mono leading-relaxed">{reason}</p>
     </div>
   )
 }

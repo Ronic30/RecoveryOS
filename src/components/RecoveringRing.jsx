@@ -4,17 +4,17 @@ export default function RecoveryRing({ score }) {
   const offset = circumference - (score / 100) * circumference
 
   const color =
-    score >= 75 ? '#00ff88' :
-    score >= 55 ? '#00f5ff' :
-    score >= 35 ? '#ffd60a' :
-    '#ff2d55'
+    score >= 75 ? '#10b981' :
+    score >= 55 ? '#3b82f6' :
+    score >= 35 ? '#eab308' :
+    '#ef233c'
 
   return (
-    <div className="relative flex items-center justify-center" style={{ width: 140, height: 140 }}>
-      <svg width="140" height="140" className="absolute top-0 left-0 -rotate-90">
-        <circle cx="70" cy="70" r={radius} fill="none" stroke="#1e1e32" strokeWidth="10" />
+    <div className="relative flex items-center justify-center" style={{ width: 150, height: 150 }}>
+      <svg width="150" height="150" className="absolute top-0 left-0 -rotate-90">
+        <circle cx="75" cy="75" r={radius} fill="none" stroke="var(--ring-track)" strokeWidth="10" />
         <circle
-          cx="70" cy="70" r={radius}
+          cx="75" cy="75" r={radius}
           fill="none"
           stroke={color}
           strokeWidth="10"
@@ -26,7 +26,7 @@ export default function RecoveryRing({ score }) {
       </svg>
       <div className="flex flex-col items-center justify-center z-10">
         <span className="font-mono font-bold text-4xl" style={{ color }}>{score}</span>
-        <span className="text-[#6b6b8a] text-[10px] font-mono tracking-widest">RECOVERY</span>
+        <span className="text-theme-muted text-[10px] font-mono tracking-widest">RECOVERY</span>
       </div>
     </div>
   )

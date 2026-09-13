@@ -8,7 +8,7 @@ export default function HistoryPage() {
 
   return (
     <div className="space-y-5">
-      <h1 className="text-[#e8e8f0] font-mono font-bold text-xl">History</h1>
+      <h1 className="text-theme-primary font-mono font-bold text-xl">History</h1>
       <StreakBadge streak={streak} />
       <LogTable logs={logs} onDelete={deleteLog} />
     </div>

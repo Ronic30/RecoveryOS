@@ -12,13 +12,14 @@ A full-stack recovery tracking dashboard. Log your daily workout intensity, slee
 
 - **Recovery Score Engine** — weighted algorithm across 4 inputs: sleep hours, sleep quality, soreness, and workout intensity
 - **Training Recommendation** — one of four states: `TRAIN HARD`, `MODERATE`, `LIGHT`, or `REST`, each with a reason
+- **Theme Switcher** — dynamic Dark Mode & Light Mode support with smooth transition
 - **Recovery Ring** — animated SVG progress ring, color-coded by score range
 - **Charts** — line chart (score trend), bar chart (sleep hours), area chart (soreness vs intensity) over 14 days
 - **Streaks** — consecutive day logging streak counter
 - **History** — full log table with per-entry delete
 - **Accounts & Auth** — JWT-based signup/login; each user's logs are private to their account
-- **Persistent Storage** — logs are stored server-side in SQLite, not just in the browser
-- **One log per day** — upsert pattern (`ON CONFLICT ... DO UPDATE`) prevents duplicate entries
+- **MongoDB Atlas Storage** — logs and accounts are stored server-side in MongoDB Cloud
+- **One log per day** — upsert pattern (`findOneAndUpdate` with `upsert: true`) prevents duplicate entries
 
 ---
 
@@ -27,9 +28,9 @@ A full-stack recovery tracking dashboard. Log your daily workout intensity, slee
 | Layer    | Tool                                           |
 | -------- | ----------------------------------------------- |
 | Frontend | React 19 + Vite, Tailwind CSS v4, Recharts, lucide-react |
-| Backend  | Express, better-sqlite3                         |
+| Backend  | Express, Mongoose, Node.js                      |
 | Auth     | JWT (jsonwebtoken) + bcryptjs for password hashing |
-| Database | SQLite (file-based, via better-sqlite3)         |
+| Database | MongoDB / MongoDB Atlas Cloud                   |
 
 ---
 
@@ -84,14 +85,17 @@ All `/api/logs` routes require `Authorization: Bearer <token>`.
 
 ```
 server/
-├── db.js                        # SQLite connection + schema
+├── db.js                        # Mongoose MongoDB connection
 ├── index.js                     # Express app + routes
-└── middleware/
-    └── auth.js                  # JWT verification middleware
+├── middleware/
+│   └── auth.js                  # JWT verification middleware
+└── models/
+    ├── User.js                  # MongoDB User schema
+    └── RecoveryLog.js           # MongoDB RecoveryLog schema
 
 src/
 ├── components/
-│   ├── Navbar.jsx
+│   ├── Navbar.jsx               # Theme switcher + navigation
 │   ├── RecoveryRing.jsx         # Animated SVG score ring
 │   ├── RecommendationCard.jsx   # Color-coded training advice
 │   ├── StatsRow.jsx             # Today's 4-metric summary
@@ -101,9 +105,13 @@ src/
 │   ├── ScoreLineChart.jsx       # 14-day score trend
 │   ├── SleepBarChart.jsx        # 14-day sleep bar chart
 │   └── SorenessIntensityChart.jsx
+├── context/
+│   ├── AuthContext.jsx          # Global Auth state
+│   └── ThemeContext.jsx         # Global Theme switcher (Dark/Light)
 ├── hooks/
-│   └── useRecoveryLogs.js       # State + API sync
+│   └── useRecoveryLogs.js       # State + MongoDB API sync
 ├── pages/
+│   ├── AuthPage.jsx
 │   ├── DashboardPage.jsx
 │   ├── LogPage.jsx
 │   ├── ChartsPage.jsx
@@ -111,7 +119,7 @@ src/
 ├── utils/
 │   ├── recoveryScore.js         # Pure score calculation function
 │   └── storage.js
-└── App.jsx                      # State-based routing
+└── App.jsx                      # App root with ThemeProvider & AuthProvider
 ```
 
 ---
@@ -128,7 +136,7 @@ npm install
 
 # Set up environment variables
 cp .env.example .env
-# fill in a JWT_SECRET
+# fill in JWT_SECRET and MONGODB_URI
 
 # Run backend + frontend together
 npm run dev:all
@@ -143,9 +151,11 @@ npm run dev      # Vite dev server
 ## Key Concepts Used
 
 - **Custom Hook** — `useRecoveryLogs` encapsulates state, API sync, streak calculation, and upsert logic
+- **MongoDB Atlas & Mongoose** — cloud database storage with strict Mongoose schemas
 - **JWT Auth** — stateless authentication; token issued on signup/login, verified via middleware on protected routes
 - **Password Hashing** — bcryptjs, never storing plaintext passwords
-- **Upsert Pattern** — `ON CONFLICT(user_id, date) DO UPDATE` at the database level prevents duplicate daily entries
+- **Theme Switcher** — CSS custom properties toggled dynamically via React Context
+- **Upsert Pattern** — `findOneAndUpdate({ userId, date }, ..., { upsert: true })` prevents duplicate daily entries
 - **Scale Inversion** — soreness and intensity scores are inverted so the algorithm direction is consistent
 - **Linear Normalization** — `(value - min) / (max - min)` used for slider fill and score calculation
 - **SVG strokeDashoffset** — progress ring drawn by offsetting a single full-circumference dash

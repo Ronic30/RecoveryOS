@@ -2,13 +2,13 @@ import DailyLogForm from '../components/DailyLogForm'
 import { useRecoveryLogs } from '../hooks/useRecoveryLogs'
 
 export default function LogPage() {
-  const { addLog, getTodayLog } = useRecoveryLogs()
+  const { addLog, logs } = useRecoveryLogs()
 
   return (
     <div className="max-w-lg mx-auto">
       <DailyLogForm
         onSubmit={addLog}
-        alreadyLogged={!!getTodayLog()}
+        existingLogs={logs}
       />
     </div>
   )

@@ -1,10 +1,11 @@
 import { Activity, PlusCircle, BarChart2, Clock, LogOut, User, Sun, Moon } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
+import { getToday } from '../utils/storage'
 
 const tabs = [
   { id: 'dashboard', label: 'Dashboard', icon: Activity },
-  { id: 'log', label: 'Log Today', icon: PlusCircle },
+  { id: 'log', label: 'Log Recovery', icon: PlusCircle },
   { id: 'charts', label: 'Charts', icon: BarChart2 },
   { id: 'history', label: 'History', icon: Clock },
 ]
@@ -75,7 +76,7 @@ export default function Navbar({ currentPage, onNavigate }) {
             User: <strong className="text-theme-primary font-medium">{user.email}</strong>
           </span>
           <span className="text-[#ef233c] font-mono">
-            {new Date().toISOString().split('T')[0]}
+            {getToday()}
           </span>
         </div>
       )}

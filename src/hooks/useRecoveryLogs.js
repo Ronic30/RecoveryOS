@@ -79,11 +79,11 @@ export function useRecoveryLogs() {
   const addLog = async (formData) => {
     if (!token) return null
 
-    const today = getToday()
+    const logDate = formData.date || getToday()
     const calculated = calculateRecoveryScore(formData)
 
     const entry = {
-      date: today,
+      date: logDate,
       workoutIntensity: Number(formData.workoutIntensity),
       sleepHours: Number(formData.sleepHours),
       sleepQuality: Number(formData.sleepQuality),
@@ -107,7 +107,7 @@ export function useRecoveryLogs() {
       if (res.ok) {
         const savedEntry = await safeFetchJson(res)
         setLogs(prev => {
-          const filtered = prev.filter(l => l.date !== today)
+          const filtered = prev.filter(l => l.date !== logDate)
           return [savedEntry, ...filtered].sort((a, b) => b.date.localeCompare(a.date))
         })
         return savedEntry
@@ -145,17 +145,31 @@ export function useRecoveryLogs() {
     return logs.find(l => l.date === todayStr) || null
   }
 
+  const getLogByDate = (date) => {
+    return logs.find(l => l.date === date) || null
+  }
+
   const getStreak = () => {
     if (logs.length === 0) return 0
-    let streak = 0
-    const today = new Date(getToday())
+    const dateSet = new Set(logs.map(l => l.date))
+    const todayStr = getToday()
+    const today = new Date(todayStr + 'T00:00:00')
 
-    for (let i = 0; i < logs.length; i++) {
-      const expected = new Date(today)
-      expected.setDate(today.getDate() - i)
-      const expectedStr = expected.toISOString().split('T')[0]
-      if (logs[i]?.date === expectedStr) {
+    let checkDate = new Date(today)
+    if (!dateSet.has(todayStr)) {
+      // If today has not been logged yet, start checking from yesterday
+      checkDate.setDate(checkDate.getDate() - 1)
+    }
+
+    let streak = 0
+    while (true) {
+      const year = checkDate.getFullYear()
+      const month = String(checkDate.getMonth() + 1).padStart(2, '0')
+      const day = String(checkDate.getDate()).padStart(2, '0')
+      const str = `${year}-${month}-${day}`
+      if (dateSet.has(str)) {
         streak++
+        checkDate.setDate(checkDate.getDate() - 1)
       } else {
         break
       }
@@ -163,5 +177,5 @@ export function useRecoveryLogs() {
     return streak
   }
 
-  return { logs, loading, error, addLog, deleteLog, getTodayLog, getStreak, refetch: fetchLogs }
+  return { logs, loading, error, addLog, deleteLog, getTodayLog, getLogByDate, getStreak, refetch: fetchLogs }
 }

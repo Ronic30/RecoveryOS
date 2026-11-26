@@ -7,11 +7,9 @@ import DashboardPage from './pages/DashboardPage'
 import LogPage from './pages/LogPage'
 import ChartsPage from './pages/ChartsPage'
 import HistoryPage from './pages/HistoryPage'
-import { useRecoveryLogs } from './hooks/useRecoveryLogs'
 
 function MainApp() {
   const { user, loading: authLoading } = useAuth()
-  const { getTodayLog } = useRecoveryLogs()
 
   const [page, setPage] = useState('dashboard')
 
